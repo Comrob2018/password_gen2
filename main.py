@@ -1,10 +1,11 @@
 from random import randint
 import sys
 import getopt
+csv.register_dialect('pDialect', delimiter='|')
 
 def multi_pass(amount,length):
     global pwordlist
-    pwordlist=[['Website','Username','Password']]
+    pwordlist=[[]]
     count=0
     pwordfile=open('Passwords.csv', 'w')    
     while count<amount:
@@ -22,25 +23,6 @@ def multi_pass(amount,length):
     pwordfile.close()
     return "Passwords have been generated, check the file labeled Passwords.csv"
 
-def multi_key(amount,length):
-    keylist=[['Purpose', 'Key']]
-    count=0
-    keyfile=open('Keys.csv', 'w')
-    while count<amount:
-        key2=''
-        getPurpose()
-        key2+=purpose+','
-        kgen(length)
-        key2+=key
-        keylist.append(key2.split(','))
-        count += 1
-    writer=csv.writer(keyfile, dialect='pDialect')            
-    for row in keylist:
-        writer.writerow(row)
-    keyfile.close()
-    return "Your keys have been generated, check the file labeled Keylist.txt"
-
-
-    
+  
 def main(argv):
     
