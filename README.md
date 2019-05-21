@@ -1,5 +1,5 @@
-# password_gen2
-password_gen v 2
+# Password Generator version 2
+
 Password generator for python that allows for command line arguments.
 
 -a amount of passwords/keys/pins you wish to generate
