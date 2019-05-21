@@ -48,7 +48,6 @@ def main():
     parser.add_argument("-s", "--specials", help="your password requires special characters", action='store_true')
     
     args=parser.parse_args()
-    print(args.length)
     length = int(args.length)
     amount = int(args.amount)
     filename = str(args.filename)
