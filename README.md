@@ -1,6 +1,8 @@
 # Password Generator version 2
 
-Password generator for python that allows for command line arguments.
+## Password generator for python that allows for command line arguments.
+
+Usage: passgen.py -a ## -f someFile.txt -l ## -P -n -s
 
 -a amount of passwords/keys/pins you wish to generate
 
@@ -18,4 +20,4 @@ Password generator for python that allows for command line arguments.
 
 -s your password requires special characters
 
-Usage: passgen.py -a ## -f someFile.txt -l ## -P -n -s
+
