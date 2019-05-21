@@ -3,14 +3,15 @@ import sys
 import argparse
 
 chars='aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ000111222333444555666777888999__..--@@##$$!!&%&**%'
+keychars='ABCDEFGHIJKLMNOPQRSTUVWXYZ00112233445566778899'
 
 def pword_gen(length):
     global pword
     pword=''
     while len(pword)<length:
-        if specials=='y'and numbers=='y':
+        if specials and numbers:
             pword+=chars[randint(0,101)]
-        elif specials!='y' and numbers=='y':
+        elif not specials and numbers:
             pword+=chars[randint(0,81)]
         else:
             pword+=chars[randint(0,51)]
@@ -27,6 +28,34 @@ def multi_pass(filename, amount, length):
     pwordfile.write(str(pwordlist))
     pwordfile.close()
     return "Passwords have been generated, check the file labeled " + filename
+
+def multi_key(filename, amount, length):
+    keylist=[]
+    count=0  
+    keyfile=open(filename, 'w')
+    while count<=amount:
+        key=''    
+        while len(key)<=length:
+            key+=keychars[randint(0,45)]
+        keylist.append(key)
+        count+=1
+    keyfile.write(str(keylist))    
+    keyfile.close()
+    return "Your keys have been generated, check the file labeled "+filename
+
+def multi_pin(filename, amount, length):
+    pinlist=[]
+    count=0
+    pinfile=open(filename, 'w')
+    while count<amount:
+        pin=''
+        while len(pin)<=length:
+            pin+=str(randint(0,9))
+        pinlist.append(pin)
+        count+=1
+    pinfile.write(str(pinlist))
+    pinfile.close()
+    return "Your pins have been generated, check the file labeled "+filename
   
 def main():
     global length
@@ -46,17 +75,23 @@ def main():
     parser.add_argument("-f", "--filename", help="the name of the output file", action='store')
     parser.add_argument("-n", "--numbers", help="your password requires numbers", action='store_true')
     parser.add_argument("-s", "--specials", help="your password requires special characters", action='store_true')
+    parser.add_argument("-P", "--Password", help="you wish to generate a password", action='store_true')
+    parser.add_argument("-K", "--CodeKey", help="you wish to generate a Code key", action='store_true')
+    parser.add_argument("-PIN", "--PIN", help="you wish to generate a numeric pin", action='store_true')
     
     args=parser.parse_args()
     length = int(args.length)
     amount = int(args.amount)
     filename = str(args.filename)
-    if True == args.specials:
-        specials = 'y'
-    if True == args.numbers:
-        numbers = 'y'
+    specials = bool(args.specials)
+    numbers = bool(args.numbers)
     
-    print(multi_pass(filename, amount, length))
+if True == args.Password:
+        print(multi_pass(filename, amount, length))
+    if True == args.CodeKey:
+        print(multi_key(filename, amount, length))
+    if True == args.PIN:
+        print(multi_pin(filename, amount, length))
  
 if __name__=='__main__':
     main()
