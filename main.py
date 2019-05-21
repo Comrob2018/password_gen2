@@ -1,7 +1,6 @@
 from random import randint
 import sys
-import getopt
-csv.register_dialect('pDialect', delimiter='|')
+import argparse
 
 chars='aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ000111222333444555666777888999__..--@@##$$!!&%&**%'
 
@@ -17,7 +16,7 @@ def pword_gen(length):
             pword+=chars[randint(0,51)]
     return pword
 
-def multi_pass(amount,length):
+def multi_pass(filename, amount, length):
     pwordlist=[]
     count=0
     pwordfile=open(filename, 'w')    
@@ -27,52 +26,39 @@ def multi_pass(amount,length):
         count+=1
     pwordfile.write(str(pwordlist))
     pwordfile.close()
-    return "Passwords have been generated, check the file labeled" + filename
+    return "Passwords have been generated, check the file labeled " + filename
   
-def main(argv):
+def main():
     global length
-    length = ''
     global amount
-    amount = ''
     global numbers
-    numbers = ''
     global specials
-    specials = ''
     global filename
-    filename = ''
+    length=''
+    amount=''
+    numbers=''
+    specials=''
+    filename=''
     
-    try:
-        opts, args = getopt.getopt(argv, "ha:f:l:ns, ["amount=","filename=","length=","numbers","specials"])
-    except getopt.GetoptError:
-        print('''passgen.py -a ## <amount of passwords to generate> 
-                            -f <output filename> 
-                            -h <help message> 
-                            -l ## <character length of password> 
-                            -n <password requires numbers> 
-                            -s <password requires special characters>''')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-h':
-            print('''passgen.py -a ## <amount of passwords to generate> 
-                                -f <output filename> 
-                                -h <help message> 
-                                -l ## <character length of password> 
-                                -n <password requires numbers> 
-                                -s <password requires special characters>''')
-            sys.exit()
-        elif opt in ('-a', '--amount'):
-            amount = int(arg)
-        elif opt in ('-f', '--filename'):
-            filename = arg
-        elif opt in ('-l', '--length'):
-            length = int(arg)
-        elif opt in ('-n', '--numbers'):
-            numbers = 'y'
-        elif opt in ('s', '--specials'):
-            specials = 'y'
-                                   
-    print(multi_pass(amount,length))
-                                   
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-a", "--amount", help="the amount of passwords you wish to generate", action='store')
+    parser.add_argument("-l", "--length", help="the length of the password", action='store')
+    parser.add_argument("-f", "--filename", help="the name of the output file", action='store')
+    parser.add_argument("-n", "--numbers", help="your password requires numbers", action='store_true')
+    parser.add_argument("-s", "--specials", help="your password requires special characters", action='store_true')
+    
+    args=parser.parse_args()
+    print(args.length)
+    length = int(args.length)
+    amount = int(args.amount)
+    filename = str(args.filename)
+    if True == args.specials:
+        specials = 'y'
+    if True == args.numbers:
+        numbers = 'y'
+    
+    print(multi_pass(filename, amount, length))
+ 
 if __name__=='__main__':
-    main(sys.argv[1:])
+    main()
     
