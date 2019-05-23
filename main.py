@@ -34,7 +34,7 @@ def multi_key(filename, amount, length):
     keylist=[]
     count=0  
     keyfile=open(filename, 'w')
-    while count<=amount:
+    while count<amount:
         key=''    
         while len(key)<=length:
             key+=keychars[randint(0,45)]
@@ -71,14 +71,17 @@ def main():
     filename=''
     
     parser = argparse.ArgumentParser()
-    parser.add_argument("-a", "--amount", help="Amount of passwords/code keys/PINs you wish to generate", action='store', required=True)
-    parser.add_argument("-l", "--length", help="Length of the password/code key/PIN", action='store', required=True)
-    parser.add_argument("-f", "--filename", help="Name of the output file", action='store', required=True)
-    parser.add_argument("-n", "--numbers", help="Password requires numbers", action='store_true')
-    parser.add_argument("-s", "--specials", help="Password requires special characters", action='store_true')
-    parser.add_argument("-P", "--Password", help="Generate a password", action='store_true')
-    parser.add_argument("-K", "--CodeKey", help="Generate a Code key", action='store_true')
-    parser.add_argument("-PIN", "--PIN", help="Generate a numeric pin", action='store_true')
+    ReqArgs = parser.add_argument_group('required arguments')
+    ReqArgs.add_argument("-a", "--amount", help="Amount of passwords/code keys/PINs to generate.", action='store', required=True)
+    ReqArgs.add_argument("-l", "--length", help="Length of each password/code key/PIN generated.", action='store', required=True)
+    ReqArgs.add_argument("-f", "--filename", help="Name of the output file.", action='store', required=True)
+    SecCodeType = parser.add_argument_group('type of security code')
+    SecCodeType.add_argument("-P", "--Password", help="Generate a password", action='store_true')
+    SecCodeType.add_argument("-K", "--CodeKey", help="Generate a code key", action='store_true')
+    SecCodeType.add_argument("-PIN", "--PIN", help="Generate a numeric pin", action='store_true')
+    PwordReqs = parser.add_argument_group('requirements for password complexity')
+    PwordReqs.add_argument("-n", "--numbers", help="Password requires numbers", action='store_true')
+    PwordReqs.add_argument("-s", "--specials", help="Password requires special characters", action='store_true')
     
     args=parser.parse_args()
     length = int(args.length)
@@ -86,15 +89,18 @@ def main():
     filename = str(args.filename)
     specials = bool(args.specials)
     numbers = bool(args.numbers)
+    Password = bool(args.Password)
+    CodeKey = bool(args.CodeKey)
+    PIN = bool(args.PIN)
     
-    if True == args.Password:
+    if Password and not CodeKey and not PIN:
         print(multi_pass(filename, amount, length))
-    elif True == args.CodeKey:
+    elif CodeKey and not Password and not PIN:
         print(multi_key(filename, amount, length))
-    elif True == args.PIN:
+    elif PIN and not Password and not CodeKey:
         print(multi_pin(filename, amount, length))
     else:
-        print('Error: You must include the -P, -K, or -PIN option.')
+        print('Error: You must use one -P, -K, or -PIN option. Only one option will be accepted.') 
  
 if __name__=='__main__':
     main()
