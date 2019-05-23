@@ -1,3 +1,4 @@
+#Password generator that accepts command line input. Developed by Robert Hendrickson.
 from random import randint
 import sys
 import argparse
@@ -70,14 +71,14 @@ def main():
     filename=''
     
     parser = argparse.ArgumentParser()
-    parser.add_argument("-a", "--amount", help="the amount of passwords you wish to generate", action='store')
-    parser.add_argument("-l", "--length", help="the length of the password", action='store')
-    parser.add_argument("-f", "--filename", help="the name of the output file", action='store')
-    parser.add_argument("-n", "--numbers", help="your password requires numbers", action='store_true')
-    parser.add_argument("-s", "--specials", help="your password requires special characters", action='store_true')
-    parser.add_argument("-P", "--Password", help="you wish to generate a password", action='store_true')
-    parser.add_argument("-K", "--CodeKey", help="you wish to generate a Code key", action='store_true')
-    parser.add_argument("-PIN", "--PIN", help="you wish to generate a numeric pin", action='store_true')
+    parser.add_argument("-a", "--amount", help="Amount of passwords/code keys/PINs you wish to generate", action='store', required=True)
+    parser.add_argument("-l", "--length", help="Length of the password/code key/PIN", action='store', required=True)
+    parser.add_argument("-f", "--filename", help="Name of the output file", action='store', required=True)
+    parser.add_argument("-n", "--numbers", help="Password requires numbers", action='store_true')
+    parser.add_argument("-s", "--specials", help="Password requires special characters", action='store_true')
+    parser.add_argument("-P", "--Password", help="Generate a password", action='store_true')
+    parser.add_argument("-K", "--CodeKey", help="Generate a Code key", action='store_true')
+    parser.add_argument("-PIN", "--PIN", help="Generate a numeric pin", action='store_true')
     
     args=parser.parse_args()
     length = int(args.length)
@@ -86,12 +87,14 @@ def main():
     specials = bool(args.specials)
     numbers = bool(args.numbers)
     
-if True == args.Password:
+    if True == args.Password:
         print(multi_pass(filename, amount, length))
-    if True == args.CodeKey:
+    elif True == args.CodeKey:
         print(multi_key(filename, amount, length))
-    if True == args.PIN:
+    elif True == args.PIN:
         print(multi_pin(filename, amount, length))
+    else:
+        print('Error: You must include the -P, -K, or -PIN option.')
  
 if __name__=='__main__':
     main()
