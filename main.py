@@ -20,9 +20,9 @@ def pword_gen(length):
         elif not lowers and uppers and specials and numbers:
             Pword+=keychars[randint(0,66)]
         elif not uppers and lowers and numbers and specials:
-            Pword+=lowerchars[randint(0,66)]
+            Pword+=lowchars[randint(0,66)]
         elif lowers and not uppers and not numbers and not specials:
-            Pword+=lowerchars[randint(0,27)]
+            Pword+=lowchars[randint(0,27)]
         elif uppers and not lowers and not numbers and not specials:
             Pword+=keychars[randint(0,27)]
         else:
