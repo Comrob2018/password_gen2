@@ -2,6 +2,7 @@
 from random import randint
 import sys
 import argparse
+import textwrap
 
 chars='aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ000111222333444555666777888999__..--@@##$$!!&%&**%'
 keychars='ABCDEFGHIJKLMNOPQRSTUVWXYZ00112233445566778899__..--@@##$$!!&%&**%'
@@ -69,59 +70,53 @@ def multi_pin(filename, amount, length):
     
 def main():    
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
     ReqArgs = parser.add_argument_group('required arguments')
     ReqArgs.add_argument("-A", "--Amount", help="Amount of passwords/code keys/PINs to generate.", action='store', required=True)
     ReqArgs.add_argument("-L", "--Length", help="Length of each password/code key/PIN generated.", action='store', required=True)
     ReqArgs.add_argument("-F", "--Filename", help="Name of the output file.", action='store', required=True)
-    SecCodeType = parser.add_argument_group('type of security code')
-    SecCodeType.add_argument("-P", "--Password", help="Generate a password", action='store_true')
-    SecCodeType.add_argument("-K", "--CodeKey", help="Generate a code key", action='store_true')
-    SecCodeType.add_argument("-PIN", "--PIN", help="Generate a numeric pin", action='store_true')
-    PwordReqs = parser.add_argument_group('requirements for password complexity')
+    ReqArgs.add_argument("-T ", "--Type", choices=['P', 'K', 'PIN'], help='''\
+    P to generate a Password, 
+    K to generate a Code Key, 
+    PIN to generate a PIN.
+    ''', action='store')
+    PwordReqs = parser.add_argument_group('password complexity requirements')
     PwordReqs.add_argument("-n", "--numbers", help="Password requires numbers", action='store_true')
     PwordReqs.add_argument("-s", "--specials", help="Password requires special characters", action='store_true')
     PwordReqs.add_argument("-l", "--lowercase", help="Password requires lowercase characters", action="store_true")
     PwordReqs.add_argument("-u", "--uppercase", help="Password requires uppercase characters", action="store_true")
     
     args=parser.parse_args()
-    length = int(args.Length)
-    amount = int(args.Amount)
-    filename = str(args.Filename)
-    specials = bool(args.specials)
-    numbers = bool(args.numbers)
-    uppers = bool(args.uppercase)
-    lowers = bool(args.lowercase)
-    Password = bool(args.Password)
-    CodeKey = bool(args.CodeKey)
-    PIN = bool(args.PIN)
     complexity = ''
     
     if specials == True:
         complexity += '1'
     else:
         complexity += '0'
+        
     if numbers == True:
         complexity += '1'
     else:
         complexity += '0'
+        
     if lowers == True:    
         complexity += '1'
     else:
         complexity += '0'
+        
     if uppers == True:
         complexity += '1'
     else:
         complexity += '0'
     
-    if Password and not CodeKey and not PIN:
-        print(multi_pass(filename, amount, length, complexity))
-    elif CodeKey and not Password and not PIN:
-        print(multi_key(filename, amount, length))
-    elif PIN and not Password and not CodeKey:
-        print(multi_pin(filename, amount, length))
+    if str(args.Type) == 'P':
+        print(multi_pass(args.Filename, int(args.Amount), int(args.Length), complexity))
+    elif str(args.Type) == "K":    
+        print(multi_key(args.Filename, int(args.Amount), int(args.Length)))
+    elif str(args.Type) == "PIN":
+        print(multi_pin(args.Filename, int(args.Amount), int(args.Length)))
     else:
-        print('Error: You must use one -P, -K, or -PIN option. Only one option will be accepted.')
+        print('Error: You must use -T with one P, K, or PIN option.')
         
 if __name__=='__main__':
     main()
