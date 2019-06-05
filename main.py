@@ -5,39 +5,36 @@ import argparse
 
 chars='aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ000111222333444555666777888999__..--@@##$$!!&%&**%'
 keychars='ABCDEFGHIJKLMNOPQRSTUVWXYZ00112233445566778899__..--@@##$$!!&%&**%'
-lowchars='abcdefghjklmnopqrstuvwxyz00112233445566778899__..@@$$##!!&%&**%'
+lowchars='abcdefghijklmnopqrstuvwxyz00112233445566778899__..--@@$$##!!&%&**%'
 
-def pword_gen(length):
-    global pword
-    pword=''
-    while len(pword)<length:
-        if specials and numbers and lowers and uppers:
-            pword+=chars[randint(0,101)]
-        elif not specials and numbers and lowers and uppers:
-            pword+=chars[randint(0,81)]
-        elif lowers and uppers and not numbers and not specials:
-            pword+=chars[randint(0,51)]
-        elif not lowers and uppers and specials and numbers:
-            Pword+=keychars[randint(0,66)]
-        elif not uppers and lowers and numbers and specials:
-            Pword+=lowchars[randint(0,66)]
-        elif lowers and not uppers and not numbers and not specials:
-            Pword+=lowchars[randint(0,27)]
-        elif uppers and not lowers and not numbers and not specials:
-            Pword+=keychars[randint(0,27)]
+def pword_gen(length, complexity):
+    pword = ''
+    while len(pword) < length:
+        if complexity == '1111': #all
+            pword += chars[randint(0,101)]
+        elif complexity == '0111': #numbers lowers and uppers
+            pword += chars[randint(0,81)]
+        elif complexity =='1101': #specials numbers and uppers
+            pword += keychars[randint(0,65)]
+        elif complexity == '1110': #specials numbers and lowers
+            pword += lowchars[randint(0,65)]
+        elif complexity == '0101': #numbers and uppers
+            pword += keychars[randint(0,45)]
+        elif complexity == '0110': #numbers and lowers
+            pword += lowchars[randint(0,45)]
         else:
             print("Error: You have not selected any password complexity requirements.")
             sys.exit()
     return pword
-    
-def multi_pass(filename, amount, length):
-    pwordlist=[]
-    count=0
-    while count<amount:
-        pword_gen(length)
+
+def multi_pass(filename, amount, length, complexity):
+    pwordlist = []
+    count = 0
+    while count < amount:
+        pword = pword_gen(length, complexity)
         pwordlist.append(pword)
-        count+=1
-    pwordfile=open(filename, 'w')
+        count += 1
+    pwordfile = open(filename, 'w')
     pwordfile.write(str(pwordlist))
     pwordfile.close()
     return "Passwords have been generated, check the file labeled " + filename
@@ -47,7 +44,7 @@ def multi_key(filename, amount, length):
     count=0
     while count<amount:
         key=''
-        while len(key)<=length:
+        while len(key) < length:
             key+=keychars[randint(0,45)]
         keylist.append(key)
         count+=1
@@ -61,7 +58,7 @@ def multi_pin(filename, amount, length):
     count=0
     while count<amount:
         pin=''
-        while len(pin)<=length:
+        while len(pin) < length:
             pin+=str(randint(0,9))
         pinlist.append(pin)
         count+=1
@@ -71,14 +68,7 @@ def multi_pin(filename, amount, length):
     return "PINs have been generated, check the file labeled "+filename    
     
 def main():    
-    global length
-    global amount
-    global numbers
-    global specials
-    global filename
-    global uppers
-    global lowers
-    
+
     parser = argparse.ArgumentParser()
     ReqArgs = parser.add_argument_group('required arguments')
     ReqArgs.add_argument("-A", "--Amount", help="Amount of passwords/code keys/PINs to generate.", action='store', required=True)
@@ -105,9 +95,27 @@ def main():
     Password = bool(args.Password)
     CodeKey = bool(args.CodeKey)
     PIN = bool(args.PIN)
+    complexity = ''
+    
+    if specials == True:
+        complexity += '1'
+    else:
+        complexity += '0'
+    if numbers == True:
+        complexity += '1'
+    else:
+        complexity += '0'
+    if lowers == True:    
+        complexity += '1'
+    else:
+        complexity += '0'
+    if uppers == True:
+        complexity += '1'
+    else:
+        complexity += '0'
     
     if Password and not CodeKey and not PIN:
-        print(multi_pass(filename, amount, length))
+        print(multi_pass(filename, amount, length, complexity))
     elif CodeKey and not Password and not PIN:
         print(multi_key(filename, amount, length))
     elif PIN and not Password and not CodeKey:
@@ -117,4 +125,3 @@ def main():
         
 if __name__=='__main__':
     main()
-    
