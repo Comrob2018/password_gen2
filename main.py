@@ -89,22 +89,22 @@ def main():
     args=parser.parse_args()
     complexity = ''
     
-    if specials == True:
+    if args.specials:
         complexity += '1'
     else:
         complexity += '0'
         
-    if numbers == True:
+    if args.numbers:
         complexity += '1'
     else:
         complexity += '0'
         
-    if lowers == True:    
+    if args.lowercase:    
         complexity += '1'
     else:
         complexity += '0'
         
-    if uppers == True:
+    if args.uppercase:
         complexity += '1'
     else:
         complexity += '0'
