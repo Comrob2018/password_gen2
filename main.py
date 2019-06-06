@@ -71,15 +71,15 @@ def multi_pin(filename, amount, length):
 def main():    
 
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
-    ReqArgs = parser.add_argument_group('required arguments')
-    ReqArgs.add_argument("-A", "--Amount", help="Amount of passwords/code keys/PINs to generate.", action='store', required=True)
-    ReqArgs.add_argument("-L", "--Length", help="Length of each password/code key/PIN generated.", action='store', required=True)
-    ReqArgs.add_argument("-F", "--Filename", help="Name of the output file.", action='store', required=True)
+    ReqArgs = parser.add_argument_group('\nrequired arguments\n')
+    ReqArgs.add_argument("-A", "--Amount", help="Amount of passwords/code keys/PINs to generate.\n", action='store', required=True)
+    ReqArgs.add_argument("-L", "--Length", help="Length of each password/code key/PIN generated.\n", action='store', required=True)
+    ReqArgs.add_argument("-F", "--Filename", help="Name of the output file.\n", action='store', required=True)
     ReqArgs.add_argument("-T ", "--Type", choices=['P', 'K', 'PIN'], help='''\
     P to generate a Password, 
     K to generate a Code Key, 
     PIN to generate a PIN.
-    ''', action='store')
+    \n''', action='store')
     PwordReqs = parser.add_argument_group('password complexity requirements')
     PwordReqs.add_argument("-n", "--numbers", help="Password requires numbers", action='store_true')
     PwordReqs.add_argument("-s", "--specials", help="Password requires special characters", action='store_true')
@@ -89,27 +89,23 @@ def main():
     args=parser.parse_args()
     complexity = ''
     
-    if args.specials:
-        complexity += '1'
-    else:
-        complexity += '0'
-        
-    if args.numbers:
-        complexity += '1'
-    else:
-        complexity += '0'
-        
-    if args.lowercase:    
-        complexity += '1'
-    else:
-        complexity += '0'
-        
-    if args.uppercase:
-        complexity += '1'
-    else:
-        complexity += '0'
-    
     if str(args.Type) == 'P':
+        if args.specials:
+            complexity += '1'
+        else:
+            complexity += '0'
+        if args.numbers:
+            complexity += '1'
+        else:
+            complexity += '0'
+        if args.lowercase:    
+            complexity += '1'
+        else:
+            complexity += '0'
+        if args.uppercase:
+            complexity += '1'
+        else:
+            complexity += '0'
         print(multi_pass(args.Filename, int(args.Amount), int(args.Length), complexity))
     elif str(args.Type) == "K":    
         print(multi_key(args.Filename, int(args.Amount), int(args.Length)))
