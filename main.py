@@ -38,7 +38,7 @@ def multi_pass(filename, amount, length, complexity):
     pwordfile = open(filename, 'w')
     pwordfile.write(str(pwordlist))
     pwordfile.close()
-    return "Passwords have been generated, check the file labeled " + filename
+    return "Passwords have been generated, check the file: " + filename
 
 def multi_key(filename, amount, length):
     keylist=[]
@@ -52,7 +52,7 @@ def multi_key(filename, amount, length):
     keyfile=open(filename, 'w')
     keyfile.write(str(keylist))
     keyfile.close()
-    return "Code keys have been generated, check the file labeled "+filename
+    return "Code keys have been generated, check the file:  " + filename
 
 def multi_pin(filename, amount, length):
     pinlist=[]
@@ -66,15 +66,15 @@ def multi_pin(filename, amount, length):
     pinfile=open(filename, 'w')
     pinfile.write(str(pinlist))
     pinfile.close()
-    return "PINs have been generated, check the file labeled "+filename    
+    return "PINs have been generated, check the file: " + filename    
     
 def main():    
 
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
     ReqArgs = parser.add_argument_group('\nrequired arguments\n')
-    ReqArgs.add_argument("-A", "--Amount", help="Amount of passwords/code keys/PINs to generate.\n", action='store', required=True)
-    ReqArgs.add_argument("-L", "--Length", help="Length of each password/code key/PIN generated.\n", action='store', required=True)
-    ReqArgs.add_argument("-F", "--Filename", help="Name of the output file.\n", action='store', required=True)
+    ReqArgs.add_argument("-A", "--Amount", help="Amount of passwords/code keys/PINs to generate.\n\n", action='store', required=True)
+    ReqArgs.add_argument("-L", "--Length", help="Length of each password/code key/PIN generated.\n\n", action='store', required=True)
+    ReqArgs.add_argument("-F", "--Filename", help="Name of the output file.\n\n", action='store', required=True)
     ReqArgs.add_argument("-T ", "--Type", choices=['P', 'K', 'PIN'], help='''\
     P to generate a Password, 
     K to generate a Code Key, 
