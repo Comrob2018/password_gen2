@@ -11,8 +11,8 @@ Usage: passgen.py -a ## -f someFile.txt -l ## -K/-P/-PIN -n -s
 -l length of passwords/keys/pins you wish to generate
 
  Only one of the following three will be accepted:
- -K generate a code key (i.e. CD key)
- -P generate a password
+ -K generate a code key (i.e. CD key);
+ -P generate a password;
  -PIN generate a numeric PIN
 
 -n your password requires numbers
