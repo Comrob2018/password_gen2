@@ -75,10 +75,10 @@ def main():
     ReqArgs.add_argument("-A", "--Amount", help="Amount of passwords/code keys/PINs to generate.\n\n", action='store', required=True)
     ReqArgs.add_argument("-L", "--Length", help="Length of each password/code key/PIN generated.\n\n", action='store', required=True)
     ReqArgs.add_argument("-F", "--Filename", help="Name of the output file.\n\n", action='store', required=True)
-    ReqArgs.add_argument("-T ", "--Type", choices=['P', 'K', 'PIN'], help='''\
+    ReqArgs.add_argument("-T ", "--Type", choices=['P', 'K', 'N'], help='''\
     P to generate a Password, 
     K to generate a Code Key, 
-    PIN to generate a PIN.
+    N to generate a Personal Identification Number (PIN).
     \n''', action='store')
     PwordReqs = parser.add_argument_group('password complexity requirements')
     PwordReqs.add_argument("-n", "--numbers", help="Password requires numbers", action='store_true')
@@ -109,10 +109,10 @@ def main():
         print(multi_pass(args.Filename, int(args.Amount), int(args.Length), complexity))
     elif str(args.Type) == "K":    
         print(multi_key(args.Filename, int(args.Amount), int(args.Length)))
-    elif str(args.Type) == "PIN":
+    elif str(args.Type) == "N":
         print(multi_pin(args.Filename, int(args.Amount), int(args.Length)))
     else:
-        print('Error: You must use -T with one P, K, or PIN option.')
+        print('Error: You must use -T with one P, K, or N option.')
         
 if __name__=='__main__':
     main()
