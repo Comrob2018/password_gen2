@@ -2,7 +2,7 @@
 
 ## Password generator for python that allows for command line arguments.
 
-Usage: passgen.py -a ## -f someFile.txt -l ## -K/-P/-PIN -n -s
+Usage: passgen.py -a ## -f someFile.txt -l ## -K/-P/-N -n -s
 
 -a amount of passwords/keys/pins you wish to generate
 
