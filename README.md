@@ -14,7 +14,7 @@ Usage: passgen.py -a ## -f someFile.txt -l ## -K/-P/-PIN -n -s
  
  -K generate a code key (i.e. CD key);
  -P generate a password;
- -PIN generate a numeric PIN
+ -N generate a numeric PIN
 
 -n your password requires numbers
 
